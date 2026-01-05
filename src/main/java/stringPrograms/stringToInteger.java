@@ -13,7 +13,7 @@ public class stringToInteger {
     Return the integer as the final result.*/
 
     public static int myAtoi(String str){
-        long num=0;
+        long num;
         char sign='\u0000';
 
         str = str.replaceFirst("^\\s","");
@@ -27,13 +27,18 @@ public class stringToInteger {
         }else{
                 String s = "";
                 for(Character c : str.toCharArray()){
-                    if(Character.isDigit(c))
-                        s=s+String.valueOf(c);
+                    if(Character.isDigit(c)) {
+                        s = s + String.valueOf(c);
+                        if(Long.parseLong(s) > Integer.MAX_VALUE){
+                            num = Integer.MAX_VALUE;
+                            break;
+                        }
+                    }
                     else
                         break;
                 }
-                //num = sign+Integer.parseInt(s);
-            num = Integer.parseInt(s);
+            //num = Integer.parseInt(s); //need to parse in long, if value is too large will get error here
+            num = Long.parseLong(s);
         }
         if(sign == '+'){
             num = +num;
@@ -57,5 +62,9 @@ public class stringToInteger {
         System.out.println(myAtoi("42ac"));
         System.out.println(myAtoi("ab_12"));
         System.out.println(myAtoi("words and 987"));
+        System.out.println(myAtoi("-91283472332"));
+        System.out.println(myAtoi("20000000000000000000"));
+        System.out.println(myAtoi("-20000000000000000000"));
+        System.out.println(myAtoi("-91283472332"));
     }
 }
